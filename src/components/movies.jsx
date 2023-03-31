@@ -5,6 +5,7 @@ import MoviesTable from "./moviesTable";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
+import _ from "lodash";
 
 class Movies extends Component {
   state = {
@@ -12,6 +13,7 @@ class Movies extends Component {
     genres: [],
     currentPage: 1,
     pageSize: 4,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   //Get all movies and genres in services
@@ -47,8 +49,8 @@ class Movies extends Component {
   };
 
   //Handle Sort in MoviesTable
-  handleSort = (path) => {
-    console.log(path);
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
   };
 
   render() {
@@ -56,6 +58,7 @@ class Movies extends Component {
     const {
       pageSize,
       currentPage,
+      sortColumn,
       selectedGenre,
       movies: allMovies,
     } = this.state;
@@ -67,7 +70,9 @@ class Movies extends Component {
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies; // Filter movies when select genre
 
-    const movies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -84,6 +89,7 @@ class Movies extends Component {
 
           <MoviesTable
             movies={movies}
+            sortColumn={sortColumn}
             onSort={this.handleSort}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
