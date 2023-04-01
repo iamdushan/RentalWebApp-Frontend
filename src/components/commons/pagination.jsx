@@ -21,7 +21,7 @@ const Pagination = (props) => {
           >
             <a
               className="page-link"
-              //href="#/" //For just remove href warning
+              href="#/" //For just remove href warning
               onClick={() => onPageChange(page)}
             >
               {page}
