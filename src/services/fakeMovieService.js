@@ -66,6 +66,13 @@ const movies = [
     numberInStock: 7,
     dailyRentalRate: 3.5,
   },
+  {
+    _id: "5b21ca3eeb7f6fbccd471812",
+    title: "Test Movie 1",
+    genre: { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
+    numberInStock: 10,
+    dailyRentalRate: 3.5,
+  },
 ];
 
 export function getMovies() {
